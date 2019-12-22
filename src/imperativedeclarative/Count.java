@@ -27,6 +27,7 @@ public class Count {
 		
 		System.out.println("Sum using Declarative Approach: " + sum2);
 		
+		
 	}
 
 }
