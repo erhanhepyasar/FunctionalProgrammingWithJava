@@ -3,6 +3,8 @@ package examples;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class PersonExampleLambda {
 
@@ -22,23 +24,47 @@ public class PersonExampleLambda {
 		// 2. Create a method that prints all elements in the list
 		System.out.println("\nPrinting all people");
 		printConditionally(people, p -> true);
+		System.out.println("\nPrinting all people - performConditionally");
+		performConditionally(people, p -> true, p -> System.out.println(p));
 		
 		// 3. Create a method that prints all people that have last name beginning with C
 		
 		System.out.println("\nPrinting people last name beginning with \"C\" - 2nd way");
 		printConditionally(people, p -> p.getLastName().startsWith("C"));
+		performConditionally(people, p -> p.getLastName().startsWith("C"), p -> System.out.println(p));
 		
 		System.out.println("\nPrinting people first name beginning with \"T\" - 2nd way");
 		printConditionally(people, p -> p.getFirstName().startsWith("T"));
+		performConditionally(people, p -> p.getFirstName().startsWith("T"), p -> System.out.println(p));
+		performConditionally(people, p -> p.getFirstName().startsWith("T"), p -> System.out.println(p.getFirstName()));
 			
 	
 
 	}
-	
-	private static void printConditionally (List<Person> people, Condition condition) {
+
+//	1. Using custom defined interface (Condition)
+//	private static void printConditionally (List<Person> people, Condition condition) {
+//		for(Person p : people) {
+//			if(condition.test(p)) {
+//				System.out.println(p);
+//			}
+//		}
+//	}
+
+//	2. Using Function Interface (Predicate<T>) (Interface and method names are not important for lambda expressions)
+	private static void printConditionally (List<Person> people, Predicate<Person> predicate) {
 		for(Person p : people) {
-			if(condition.test(p)) {
+			if(predicate.test(p)) {
 				System.out.println(p);
+			}
+		}
+	}
+	
+//	2. Using Function Interface (Predicate<T>) (Interface and method names are not important for lambda expressions)
+	private static void performConditionally (List<Person> people, Predicate<Person> predicate, Consumer<Person> consumer) {
+		for(Person p : people) {
+			if(predicate.test(p)) {
+				consumer.accept(p);
 			}
 		}
 	}
